@@ -2,27 +2,17 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
-import { FaRegUserCircle } from "react-icons/fa";
-import { IoCart } from "react-icons/io5";
 import Slider from "./Slider/Slider.js";
 import ContainerMain from "./ContainerMain/ContainerMain.js";
 import Footer from "../Footer/Footer.js";
-import Form from "../Form/Form";
 import axios from "axios";
 import Admin from "../admin/admin.js";
 import Cart from "../Cart/Cart.js";
 
-const BodyMain = ({
-  loggedInUser,
-  setLoggedInUser,
-  showAdmin,
-  setShowAdmin,
-}) => {
+const BodyMain = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [moviesData, setMoviesData] = useState([]);
-  const [showLoginForm, setShowLoginForm] = useState(false);
 
   const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -63,14 +53,7 @@ const BodyMain = ({
     }
   };
 
-  const handleLogout = () => {
-    setLoggedInUser(null);
-    setShowAdmin(false);
-  };
 
-  const handleLoginForm = () => {
-    setShowLoginForm(!showLoginForm);
-  };
 
   return (
     <Router>

@@ -52,7 +52,7 @@ const Admin = () => {
 
     try {
       const response = await axios.get(
-        `https://api-express-inky.vercel.app/api/${email}`
+        `https://api-express-inky.vercel.app/api/users/${email}`
       );
 
       if (response.data) {
