@@ -265,7 +265,7 @@ const HeaderStyle = styled.div`
 
   .inputInfo {
     position: absolute;
-    background-color: #fff;
+    background-color: #5ba503!important;
     border-radius: 10px;
     width: 226px;
     display: none;
@@ -278,6 +278,7 @@ const HeaderStyle = styled.div`
       margin-top: 0;
       margin-bottom: 1rem;
       li {
+        border-bottom:0.1px solid #333;
         margin: 0 10px 10px 10px;
         cursor: pointer;
         display: flex;
