@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Form from './components/Form/Form.js';
+import BodyMain from './components/BodyMain/Bodymain.js';
+import Admin from './components/admin/admin.js';
+import AddMovieForm from './components/add/add.js';
+import Cart from './components/Cart/Cart.js';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [loggedInUser, setLoggedInUser] = useState(null);
+    const [showAdmin, setShowAdmin] = useState(false);
+
+    const handleLoginSuccess = (user) => {
+        setLoggedInUser(user);
+        setShowAdmin(false);
+    };
+
+    return (
+        <div className="App">
+           <BodyMain></BodyMain>
+          
+        </div>
+        
+    );
 }
 
 export default App;
