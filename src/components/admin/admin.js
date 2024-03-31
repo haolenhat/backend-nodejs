@@ -109,7 +109,7 @@ const Admin = () => {
           <aside className="left-sidebar">
             <div>
               <div className="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index.html" className="text-nowrap logo-img">
+                <a  className="text-nowrap logo-img">
                   <img
                     src="../assets/images/logos/dark-logo.svg"
                     width={180}
@@ -151,14 +151,14 @@ const Admin = () => {
                     <a
                       className="nav-link sidebartoggler nav-icon-hover"
                       id="headerCollapse"
-                      href="javascript:void(0)">
+                      >
                       <i className="ti ti-menu-2" />
                     </a>
                   </li>
                   <li className="nav-item">
                     <a
                       className="nav-link nav-icon-hover"
-                      href="javascript:void(0)">
+                      >
                       <i className="ti ti-bell-ringing" />
                       <div className="notification bg-primary rounded-circle" />
                     </a>
@@ -171,7 +171,7 @@ const Admin = () => {
                     <li className="nav-item dropdown">
                       <a
                         className="nav-link nav-icon-hover"
-                        href="javascript:void(0)"
+                        
                         id="drop2"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -188,25 +188,25 @@ const Admin = () => {
                         aria-labelledby="drop2">
                         <div className="message-body">
                           <a
-                            href="javascript:void(0)"
+                            
                             className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-user fs-6" />
                             <p className="mb-0 fs-3">My Profile</p>
                           </a>
                           <a
-                            href="javascript:void(0)"
+                            
                             className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-mail fs-6" />
                             <p className="mb-0 fs-3">My Account</p>
                           </a>
                           <a
-                            href="javascript:void(0)"
+                            
                             className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-list-check fs-6" />
                             <p className="mb-0 fs-3">My Task</p>
                           </a>
                           <a
-                            href="./authentication-login.html"
+                            
                             className="btn btn-outline-primary mx-3 mt-2 d-block">
                             Logout
                           </a>
@@ -308,12 +308,12 @@ const Admin = () => {
                 <p className="mb-0 fs-4">
                   Made by{" "}
                   <a
-                    href=""
+                    
                     target="_blank"
                     className="pe-1 text-primary text-center">
                     Nguyễn Quang Luật,Phạm Tôn Thuận,Huỳnh Thanh Phúc{" "}
                   </a>{" "}
-                  with <a href="#">Nguyễn Huỳnh Phúc Nghi và Lê Nhật Hào</a>
+                  with <a>Nguyễn Huỳnh Phúc Nghi và Lê Nhật Hào</a>
                 </p>
               </div>
             </div>
