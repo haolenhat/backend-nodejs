@@ -109,13 +109,13 @@ const Admin = () => {
           <aside className="left-sidebar">
             <div>
               <div className="brand-logo d-flex align-items-center justify-content-between">
-                <a  className="text-nowrap logo-img">
+                <button className="text-nowrap logo-img">
                   <img
                     src="../assets/images/logos/dark-logo.svg"
                     width={180}
                     alt=""
                   />
-                </a>
+                </button>
                 <div
                   className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
                   id="sidebarCollapse">
@@ -148,20 +148,20 @@ const Admin = () => {
               <nav className="navbar navbar-expand-lg navbar-light">
                 <ul className="navbar-nav">
                   <li className="nav-item d-block d-xl-none">
-                    <a
+                    <button
                       className="nav-link sidebartoggler nav-icon-hover"
                       id="headerCollapse"
                       >
                       <i className="ti ti-menu-2" />
-                    </a>
+                    </button>
                   </li>
                   <li className="nav-item">
-                    <a
+                    <button
                       className="nav-link nav-icon-hover"
                       >
                       <i className="ti ti-bell-ringing" />
                       <div className="notification bg-primary rounded-circle" />
-                    </a>
+                    </button>
                   </li>
                 </ul>
                 <div
@@ -169,7 +169,7 @@ const Admin = () => {
                   id="navbarNav">
                   <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                     <li className="nav-item dropdown">
-                      <a
+                      <button
                         className="nav-link nav-icon-hover"
                         
                         id="drop2"
@@ -182,34 +182,34 @@ const Admin = () => {
                           height={35}
                           className="rounded-circle"
                         />
-                      </a>
+                      </button>
                       <div
                         className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                         aria-labelledby="drop2">
                         <div className="message-body">
-                          <a
+                          <button
                             
                             className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-user fs-6" />
                             <p className="mb-0 fs-3">My Profile</p>
-                          </a>
-                          <a
+                          </button>
+                          <button
                             
                             className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-mail fs-6" />
                             <p className="mb-0 fs-3">My Account</p>
-                          </a>
-                          <a
+                          </button>
+                          <button
                             
                             className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-list-check fs-6" />
                             <p className="mb-0 fs-3">My Task</p>
-                          </a>
-                          <a
+                          </button>
+                          <button
                             
                             className="btn btn-outline-primary mx-3 mt-2 d-block">
                             Logout
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </li>
@@ -231,22 +231,22 @@ const Admin = () => {
                           <thead className="text-dark fs-4">
                             <tr>
                               <th className="border-bottom-0">
-                                <h6 className="fw-semibold mb-0">STT</h6>
+                                 <span className="fw-semibold mb-0">STT</span>
                               </th>
                               <th className="border-bottom-0">
-                                <h6 className="fw-semibold mb-0">Name</h6>
+                                <span className="fw-semibold mb-0">Name</span>
                               </th>
                               <th className="border-bottom-0">
-                                <h6 className="fw-semibold mb-0">Image</h6>
+                                <span className="fw-semibold mb-0">Image</span>
                               </th>
                               <th className="border-bottom-0">
-                                <h6 className="fw-semibold mb-0">Type</h6>
+                                <span className="fw-semibold mb-0">Type</span>
                               </th>
                               <th className="border-bottom-0">
-                                <h6 className="fw-semibold mb-0">Price</h6>
+                                <span className="fw-semibold mb-0">Price</span>
                               </th>
                               <th className="border-bottom-0">
-                                <h6 />
+                                <span />
                               </th>
                             </tr>
                           </thead>
@@ -254,26 +254,22 @@ const Admin = () => {
                             {movies.map((movie, index) => (
                               <tr key={index}>
                                 <td className="border-bottom-0">
-                                  <h6 className="fw-semibold mb-0">
-                                    {index + 1}
-                                  </h6>
-                                </td>
-                                <td className="border-bottom-0">
                                   <h6 className="fw-semibold mb-1">
                                     {movie.name || movie.title}
                                   </h6>
                                 </td>
                                 <td className="border-bottom-0">
-                                  <a
-                                    href={movie.link_film}
-                                    target="_blank"
-                                    rel="noopener noreferrer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0"
+                                    onClick={() => window.open(movie.link_film, "_blank")}
+                                  >
                                     <img
                                       src={movie.poster_path}
                                       alt={movie.name}
                                       width={50}
                                     />
-                                  </a>
+                                  </button>
                                 </td>
                                 <td className="border-bottom-0">
                                   <h6 className="fw-semibold mb-0">
@@ -307,13 +303,13 @@ const Admin = () => {
               <div className="py-6 px-6 text-center">
                 <p className="mb-0 fs-4">
                   Made by{" "}
-                  <a
+                  <button
                     
                     target="_blank"
                     className="pe-1 text-primary text-center">
                     Nguyễn Quang Luật,Phạm Tôn Thuận,Huỳnh Thanh Phúc{" "}
-                  </a>{" "}
-                  with <a>Nguyễn Huỳnh Phúc Nghi và Lê Nhật Hào</a>
+                  </button>{" "}
+                  with <button>Nguyễn Huỳnh Phúc Nghi và Lê Nhật Hào</button>
                 </p>
               </div>
             </div>
@@ -325,6 +321,7 @@ const Admin = () => {
 };
 
 export default Admin;
+
 
 const AdminStyled = styled.div`
   .edit {
