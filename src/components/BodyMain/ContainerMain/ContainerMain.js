@@ -34,7 +34,7 @@ function ContainerMain({ cartItems, addToCart }) {
 
   useEffect(() => {
     axios
-      .get("https://api-express-inky.vercel.app/api/tree")
+      .get("https://api-caycanh.vercel.app/api/tree")
       .then((response) => {
         setMovies(response.data);
       })

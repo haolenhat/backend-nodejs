@@ -28,7 +28,7 @@ function AddMovieForm() {
         type: type,
       };
 
-      const response = await axios.post('http://localhost:3008/api/addmovies', movieData);
+      const response = await axios.post('https://api-caycanh.vercel.app/api/addtree', movieData);
 
       console.log('Response:', response.data);
 

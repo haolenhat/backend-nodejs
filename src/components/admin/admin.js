@@ -20,7 +20,7 @@ const Admin = () => {
   useEffect(() => {
     // Gửi yêu cầu GET đến API
     axios
-      .get("https://api-express-inky.vercel.app/api/tree")
+      .get("https://api-caycanh.vercel.app/api/tree")
       .then((response) => {
         // Cập nhật trạng thái với dữ liệu từ API
         setMovies(response.data);
@@ -34,7 +34,7 @@ const Admin = () => {
     try {
       // Gửi yêu cầu DELETE đến API để xoá bộ phim theo id
       const response = await axios.delete(
-        `https://api-express-inky.vercel.app/api/tree/${id}`
+        `https://api-caycanh.vercel.app/api/tree/${id}`
       );
       console.log("Delete Response:", response.data);
 
@@ -52,7 +52,7 @@ const Admin = () => {
 
     try {
       const response = await axios.get(
-        `https://api-express-inky.vercel.app/api/users/${email}`
+        `https://api-caycanh.vercel.app/api/users/${email}`
       );
 
       if (response.data) {

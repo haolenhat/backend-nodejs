@@ -25,7 +25,7 @@ const BodyMain = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://api-express-inky.vercel.app/api/tree"
+          "https://api-caycanh.vercel.app/api/tree"
         );
         setMoviesData(response.data || []);
       } catch (error) {
