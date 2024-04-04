@@ -12,6 +12,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import About from '../About/about.js';
 import Blog from '../Blog/Blog.js';
 import Service from '../Service/Service.js';
+import UserInfoTable from '../SearchCart/SearchCart.js';
 
 const BodyMain = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -100,8 +101,8 @@ const BodyMain = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/admin">
-                    Liên hệ
+                  <Link className="nav-link" to="/searchProduct">
+                    Tra cứu sản phẩm
                   </Link>
                 </li>
               </ul>
@@ -160,6 +161,7 @@ const BodyMain = () => {
         <Route path="/about/*" element={<About />} />
         <Route path="/blog/*" element={<Blog />} />
         <Route path="/service/*" element={<Service />} />
+        <Route path="/searchProduct/*" element={<UserInfoTable />} />
         <Route
           path="/cart/*"
           element={<Cart cart={cart} setCart={setCart} />}

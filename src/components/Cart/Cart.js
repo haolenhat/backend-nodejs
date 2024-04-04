@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import emailjs from '@emailjs/browser';
+import axios from 'axios';
 
 const Cart = ({ cart, setCart }) => {
   const [showForm, setShowForm] = useState(false); // State để kiểm soát việc hiển thị form
@@ -65,6 +66,7 @@ const Cart = ({ cart, setCart }) => {
           // Hiển thị thông báo đặt hàng thành công
           setOrderSuccess(true);
           // Ẩn thông báo sau 1 giây
+          saveDataToDatabase();
           setTimeout(() => {
             setOrderSuccess(false);
           }, 1000);
@@ -73,6 +75,33 @@ const Cart = ({ cart, setCart }) => {
           console.log('FAILED...', error.text);
         },
       );
+  };
+  // eslint-disable-next-line no-unused-vars
+  const saveDataToDatabase = () => {
+    const userName = form.current.user_name.value;
+    const productName = selectedProductInfo.title || selectedProductInfo.name;
+    const productQuantity = selectedProductInfo.quantity || 1;
+
+    axios
+      .post('https://api-caycanh.vercel.app/api/info', {
+        name: productName,
+        price: selectedProductInfo.price,
+        quantity: productQuantity,
+        location: userLocation,
+        phone: userPhone,
+        nameUser: userName,
+      })
+      .then((response) => {
+        console.log('Data saved to database:', response.data);
+        // Hiển thị thông báo đặt hàng thành công
+        setOrderSuccess(true);
+        setTimeout(() => {
+          setOrderSuccess(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.error('Failed to save data to database:', error);
+      });
   };
 
   return (
@@ -122,7 +151,7 @@ const Cart = ({ cart, setCart }) => {
         </StyledContactForm>
       )}
       {showCartList && (
-        <div className="container-fluid">
+        <div className="container">
           <div className="card">
             <div className="card-body">
               <h3>Danh sách sản phẩm trong giỏ hàng</h3>
@@ -133,9 +162,9 @@ const Cart = ({ cart, setCart }) => {
                     thông tin cần thiết để chúng tôi có thể hỗ trợ bạn sớm nhất
                     !
                   </span>
-                  <div className="row">
+                  <div className="">
                     {cart.map((selectedProduct, index) => (
-                      <div key={selectedProduct._id} className="col-md-12">
+                      <div key={selectedProduct._id} className="">
                         <div className="carda">
                           <div className="stt-column">{index + 1}.</div>{' '}
                           <img
@@ -146,7 +175,7 @@ const Cart = ({ cart, setCart }) => {
                             className="card-img-top"
                             alt="..."
                           />
-                          <div className="card-body ">
+                          <div className="card-body1 ">
                             <h5 className="card-title fw-semibold ">
                               {selectedProduct.title || selectedProduct.name}
                             </h5>
@@ -219,7 +248,8 @@ const CartCss = styled.div`
   .carda {
     display: Flex;
     align-items: center;
-
+    border-bottom: 0.1px solid #333;
+    padding: 20px 0;
     h5 {
       width: 30%;
       text-align: center;
@@ -227,6 +257,7 @@ const CartCss = styled.div`
   }
   .card-img-top {
     width: 10%;
+    margin-right: 20px;
   }
 
   .soluong {
@@ -249,6 +280,10 @@ const CartCss = styled.div`
 `;
 
 const StyledContactForm = styled.div`
+  .card-body1 {
+    width: 80%;
+    margin-left: 30px;
+  }
   padding: 10px;
   box-shadow:
     0 1px 2px 0 rgba(60, 64, 67, 0.1),
@@ -272,8 +307,6 @@ const StyledContactForm = styled.div`
   .card-body {
     display: flex !important;
     align-items: center;
-
-    width: 80%;
     h3 {
       font-size: 16px;
     }

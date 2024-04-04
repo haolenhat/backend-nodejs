@@ -3,8 +3,24 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { IoCloseCircle } from 'react-icons/io5';
 import AddMovieForm from '../add/add';
+import { FaTimes } from 'react-icons/fa';
 
 const Admin = () => {
+  const [trees, setTrees] = useState([]);
+  // eslint-disable-next-line
+  const [infoHidden, setInfoHidden] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
+  useEffect(() => {
+    axios
+      .get('https://api-caycanh.vercel.app/api/info')
+      .then((response) => {
+        setTrees(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const [movies, setMovies] = useState([]);
   const [showFormAdd, setShowFormAdd] = useState(false);
   const [loginStatus, setLoginStatus] = useState('');
@@ -68,6 +84,14 @@ const Admin = () => {
     }
   };
 
+  const openInfo = () => {
+    setInfoVisible(true);
+  };
+
+  const closeInfo = () => {
+    setInfoVisible(false);
+  };
+
   return (
     <AdminStyled>
       <ContactForm
@@ -87,6 +111,41 @@ const Admin = () => {
           <p>Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại sau.</p>
         )}
       </ContactForm>
+      <Info className="" style={{ display: infoVisible ? 'block' : 'none' }}>
+        <Infocss hidden={infoHidden} className="container">
+          <CloseButton onClick={closeInfo}>
+            <FaTimes />
+          </CloseButton>
+          <h2>Danh sách đơn hàng cây</h2>
+          <Table>
+            <thead>
+              <tr>
+                <Th>STT</Th>
+                <Th>Tên Khách Hàng</Th>
+                <Th>Tên Cây</Th>
+                <Th>Giá</Th>
+                <Th>Số Lượng</Th>
+                <Th>Địa chỉ</Th>
+                <Th>Số Điện Thoại</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {trees.map((tree, index) => (
+                <Tr key={tree._id}>
+                  <Td>{index + 1}</Td>
+                  <Td>{tree.nameUser}</Td>
+                  <Td>{tree.name}</Td>
+                  <Td>{tree.price}</Td>
+                  <Td>{tree.quantity}</Td>
+                  <Td>{tree.location}</Td>
+                  <Td>{tree.phone}</Td>
+                </Tr>
+              ))}
+            </tbody>
+          </Table>
+        </Infocss>
+      </Info>
+
       <div
         className="edit"
         style={{ display: loginStatus === 'success' ? 'block' : 'none' }}
@@ -143,6 +202,16 @@ const Admin = () => {
                         <i className="ti ti-layout-dashboard" />
                       </span>
                       <span className="hide-menu">Thêm cây cảnh</span>
+                    </div>
+                    <div
+                      className="sidebar-link"
+                      onClick={openInfo}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <span>
+                        <i className="ti ti-layout-dashboard" />
+                      </span>
+                      <span className="hide-menu">Danh sách đặt hàng</span>
                     </div>
                   </li>
                 </ul>
@@ -339,7 +408,7 @@ const AdminStyled = styled.div`
   .edit {
     display: none;
   }
-
+  .form-info,
   .formAdd {
     position: fixed;
     top: 0;
@@ -422,5 +491,63 @@ const ContactForm = styled.div`
       color: white;
       border: none;
     }
+  }
+`;
+
+const Info = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  display: ${(props) => (props.hidden ? 'none' : 'flex')};
+  align-items: center;
+  justify-content: center;
+  background-color: #c8ecc1;
+`;
+
+const Infocss = styled.div`
+  position: relative;
+  width: 80%; /* điều chỉnh kích thước phù hợp */
+  max-width: 800px; /* giới hạn chiều rộng tối đa */
+  max-height: 80%; /* giới hạn chiều cao tối đa */
+  overflow-y: auto; /* hiển thị thanh cuộn nếu nội dung quá dài */
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+`;
+
+const CloseButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+`;
+
+const Th = styled.th`
+  padding: 8px;
+  background-color: #f2f2f2;
+`;
+
+const Td = styled.td`
+  padding: 8px;
+`;
+
+const Tr = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  &:hover {
+    background-color: #ddd;
   }
 `;
