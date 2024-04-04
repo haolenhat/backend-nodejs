@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import styled from "styled-components";
-import { IoCloseCircle } from "react-icons/io5";
-import AddMovieForm from "../add/add";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { IoCloseCircle } from 'react-icons/io5';
+import AddMovieForm from '../add/add';
 
 const Admin = () => {
   const [movies, setMovies] = useState([]);
   const [showFormAdd, setShowFormAdd] = useState(false);
-  const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus, setLoginStatus] = useState('');
 
   const openFormAdd = () => {
     setShowFormAdd(true);
@@ -20,13 +20,13 @@ const Admin = () => {
   useEffect(() => {
     // Gửi yêu cầu GET đến API
     axios
-      .get("https://api-caycanh.vercel.app/api/tree")
+      .get('https://api-caycanh.vercel.app/api/tree')
       .then((response) => {
         // Cập nhật trạng thái với dữ liệu từ API
         setMovies(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       });
   }, []); // useEffect sẽ chỉ chạy một lần sau khi component được render
 
@@ -34,44 +34,45 @@ const Admin = () => {
     try {
       // Gửi yêu cầu DELETE đến API để xoá bộ phim theo id
       const response = await axios.delete(
-        `https://api-caycanh.vercel.app/api/tree/${id}`
+        `https://api-caycanh.vercel.app/api/tree/${id}`,
       );
-      console.log("Delete Response:", response.data);
+      console.log('Delete Response:', response.data);
 
       // Cập nhật state bằng cách lọc ra những bộ phim không có id trùng với id đã xoá
       setMovies((prevMovies) => prevMovies.filter((movie) => movie._id !== id));
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error('Error deleting product:', error);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const email = formData.get("user_email");
+    const email = formData.get('user_email');
 
     try {
       const response = await axios.get(
-        `https://api-caycanh.vercel.app/api/users/${email}`
+        `https://api-caycanh.vercel.app/api/users/${email}`,
       );
 
       if (response.data) {
         // Nếu email tồn tại trong cơ sở dữ liệu
-        setLoginStatus("success"); // Đặt trạng thái thành công
+        setLoginStatus('success'); // Đặt trạng thái thành công
       } else {
         // Nếu email không tồn tại trong cơ sở dữ liệu
-        setLoginStatus("fail"); // Đặt trạng thái thất bại
+        setLoginStatus('fail'); // Đặt trạng thái thất bại
       }
     } catch (error) {
-      console.error("Error logging in:", error);
-      setLoginStatus("error"); // Xử lý lỗi nếu có
+      console.error('Error logging in:', error);
+      setLoginStatus('error'); // Xử lý lỗi nếu có
     }
   };
 
   return (
     <AdminStyled>
       <ContactForm
-        style={{ display: loginStatus === "success" ? "none" : "block" }}>
+        style={{ display: loginStatus === 'success' ? 'none' : 'block' }}
+      >
         <form onSubmit={handleSubmit}>
           <h5>Nhập thông tin của Admin để được sử dụng quyền quản trị</h5>
           <label>Email</label>
@@ -80,18 +81,20 @@ const Admin = () => {
           <input type="password" name="user_password" required />
           <input type="submit" value="Submit" />
         </form>
-        {loginStatus === "success" && <p>Đăng nhập thành công!</p>}
-        {loginStatus === "fail" && <p>Email hoặc mật khẩu không chính xác.</p>}
-        {loginStatus === "error" && (
+        {loginStatus === 'success' && <p>Đăng nhập thành công!</p>}
+        {loginStatus === 'fail' && <p>Email hoặc mật khẩu không chính xác.</p>}
+        {loginStatus === 'error' && (
           <p>Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại sau.</p>
         )}
       </ContactForm>
       <div
         className="edit"
-        style={{ display: loginStatus === "success" ? "block" : "none" }}>
+        style={{ display: loginStatus === 'success' ? 'block' : 'none' }}
+      >
         <div
           className="formAdd"
-          style={{ display: showFormAdd ? "flex" : "none" }}>
+          style={{ display: showFormAdd ? 'flex' : 'none' }}
+        >
           <IoCloseCircle className="formAddIcon" onClick={closeFormAdd} />
           <form>
             <AddMovieForm />
@@ -105,7 +108,8 @@ const Admin = () => {
           data-navbarbg="skin6"
           data-sidebartype="full"
           data-sidebar-position="fixed"
-          data-header-position="fixed">
+          data-header-position="fixed"
+        >
           <aside className="left-sidebar">
             <div>
               <div className="brand-logo d-flex align-items-center justify-content-between">
@@ -118,7 +122,8 @@ const Admin = () => {
                 </button>
                 <div
                   className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
-                  id="sidebarCollapse">
+                  id="sidebarCollapse"
+                >
                   <i className="ti ti-x fs-8" />
                 </div>
               </div>
@@ -132,11 +137,12 @@ const Admin = () => {
                     <div
                       className="sidebar-link"
                       onClick={openFormAdd}
-                      style={{ cursor: "pointer" }}>
+                      style={{ cursor: 'pointer' }}
+                    >
                       <span>
                         <i className="ti ti-layout-dashboard" />
                       </span>
-                      <span className="hide-menu">Thêm Cây cảnh</span>
+                      <span className="hide-menu">Thêm cây cảnh</span>
                     </div>
                   </li>
                 </ul>
@@ -151,14 +157,12 @@ const Admin = () => {
                     <button
                       className="nav-link sidebartoggler nav-icon-hover"
                       id="headerCollapse"
-                      >
+                    >
                       <i className="ti ti-menu-2" />
                     </button>
                   </li>
                   <li className="nav-item">
-                    <button
-                      className="nav-link nav-icon-hover"
-                      >
+                    <button className="nav-link nav-icon-hover">
                       <i className="ti ti-bell-ringing" />
                       <div className="notification bg-primary rounded-circle" />
                     </button>
@@ -166,15 +170,16 @@ const Admin = () => {
                 </ul>
                 <div
                   className="navbar-collapse justify-content-end px-0"
-                  id="navbarNav">
+                  id="navbarNav"
+                >
                   <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                     <li className="nav-item dropdown">
                       <button
                         className="nav-link nav-icon-hover"
-                        
                         id="drop2"
                         data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                        aria-expanded="false"
+                      >
                         <img
                           src="../assets/images/profile/user-1.jpg"
                           alt=""
@@ -185,29 +190,22 @@ const Admin = () => {
                       </button>
                       <div
                         className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                        aria-labelledby="drop2">
+                        aria-labelledby="drop2"
+                      >
                         <div className="message-body">
-                          <button
-                            
-                            className="d-flex align-items-center gap-2 dropdown-item">
+                          <button className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-user fs-6" />
                             <p className="mb-0 fs-3">My Profile</p>
                           </button>
-                          <button
-                            
-                            className="d-flex align-items-center gap-2 dropdown-item">
+                          <button className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-mail fs-6" />
                             <p className="mb-0 fs-3">My Account</p>
                           </button>
-                          <button
-                            
-                            className="d-flex align-items-center gap-2 dropdown-item">
+                          <button className="d-flex align-items-center gap-2 dropdown-item">
                             <i className="ti ti-list-check fs-6" />
                             <p className="mb-0 fs-3">My Task</p>
                           </button>
-                          <button
-                            
-                            className="btn btn-outline-primary mx-3 mt-2 d-block">
+                          <button className="btn btn-outline-primary mx-3 mt-2 d-block">
                             Logout
                           </button>
                         </div>
@@ -224,14 +222,15 @@ const Admin = () => {
                   <div className="card w-100">
                     <div className="card-body p-4">
                       <h5 className="card-title fw-semibold mb-4">
-                        Quản lý phim
+                        Quản lý cây
                       </h5>
+                      <span>Danh sách các cây cảnh hiển thị trong website</span>
                       <div className="">
                         <table className="table text-nowrap mb-0 align-middle">
                           <thead className="text-dark fs-4">
                             <tr>
                               <th className="border-bottom-0">
-                                 <span className="fw-semibold mb-0">STT</span>
+                                <span className="fw-semibold mb-0">STT</span>
                               </th>
                               <th className="border-bottom-0">
                                 <span className="fw-semibold mb-0">Name</span>
@@ -255,6 +254,11 @@ const Admin = () => {
                               <tr key={index}>
                                 <td className="border-bottom-0">
                                   <h6 className="fw-semibold mb-1">
+                                    {index + 1}
+                                  </h6>
+                                </td>
+                                <td className="border-bottom-0">
+                                  <h6 className="fw-semibold mb-1">
                                     {movie.name || movie.title}
                                   </h6>
                                 </td>
@@ -262,7 +266,9 @@ const Admin = () => {
                                   <button
                                     type="button"
                                     className="btn btn-link p-0"
-                                    onClick={() => window.open(movie.link_film, "_blank")}
+                                    onClick={() =>
+                                      window.open(movie.link_film, '_blank')
+                                    }
                                   >
                                     <img
                                       src={movie.poster_path}
@@ -273,7 +279,13 @@ const Admin = () => {
                                 </td>
                                 <td className="border-bottom-0">
                                   <h6 className="fw-semibold mb-0">
-                                    {movie.type}
+                                    {movie.type === 'construction'
+                                      ? 'Cây công trình'
+                                      : movie.type === 'flower'
+                                        ? 'Cây hoa'
+                                        : movie.type === 'table'
+                                          ? 'Cây để bàn'
+                                          : ''}
                                   </h6>
                                 </td>
                                 <td className="border-bottom-0">
@@ -286,7 +298,8 @@ const Admin = () => {
                                     <button
                                       type="button"
                                       className="btn btn-warning m-1"
-                                      onClick={() => handleDelete(movie._id)}>
+                                      onClick={() => handleDelete(movie._id)}
+                                    >
                                       Xóa
                                     </button>
                                   </h6>
@@ -302,13 +315,13 @@ const Admin = () => {
               </div>
               <div className="py-6 px-6 text-center">
                 <p className="mb-0 fs-4">
-                  Made by{" "}
+                  Made by{' '}
                   <button
-                    
                     target="_blank"
-                    className="pe-1 text-primary text-center">
-                    Nguyễn Quang Luật,Phạm Tôn Thuận,Huỳnh Thanh Phúc{" "}
-                  </button>{" "}
+                    className="pe-1 text-primary text-center"
+                  >
+                    Nguyễn Quang Luật,Phạm Tôn Thuận,Huỳnh Thanh Phúc{' '}
+                  </button>{' '}
                   with <button>Nguyễn Huỳnh Phúc Nghi và Lê Nhật Hào</button>
                 </p>
               </div>
@@ -321,7 +334,6 @@ const Admin = () => {
 };
 
 export default Admin;
-
 
 const AdminStyled = styled.div`
   .edit {
@@ -403,7 +415,7 @@ const ContactForm = styled.div`
       margin-top: 1rem;
     }
 
-    input[type="submit"] {
+    input[type='submit'] {
       margin-top: 2rem;
       cursor: pointer;
       background: rgb(249, 105, 14);

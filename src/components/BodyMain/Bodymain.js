@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import styled from "styled-components";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Slider from "./Slider/Slider.js";
-import ContainerMain from "./ContainerMain/ContainerMain.js";
-import Footer from "../Footer/Footer.js";
-import axios from "axios";
-import Admin from "../admin/admin.js";
-import Cart from "../Cart/Cart.js";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Slider from './Slider/Slider.js';
+import ContainerMain from './ContainerMain/ContainerMain.js';
+import Footer from '../Footer/Footer.js';
+import axios from 'axios';
+import Admin from '../admin/admin.js';
+import Cart from '../Cart/Cart.js';
+import { FaShoppingCart } from 'react-icons/fa';
+import About from '../About/about.js';
+import Blog from '../Blog/Blog.js';
+import Service from '../Service/Service.js';
 
 const BodyMain = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [moviesData, setMoviesData] = useState([]);
 
@@ -25,11 +29,11 @@ const BodyMain = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://api-caycanh.vercel.app/api/tree"
+          'https://api-caycanh.vercel.app/api/tree',
         );
         setMoviesData(response.data || []);
       } catch (error) {
-        console.error("Error fetching data from API:", error);
+        console.error('Error fetching data from API:', error);
       }
     };
 
@@ -53,15 +57,14 @@ const BodyMain = () => {
     }
   };
 
-
-
   return (
     <Router>
       <HeaderStyle className="header-height">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">
-              Cây cảnh 5 anh em
+              <img src="https://i.imgur.com/YfrzqBo.png" alt="5 anh em" />5 Anh
+              Em
             </Link>
             <button
               className="navbar-toggler"
@@ -70,24 +73,35 @@ const BodyMain = () => {
               data-bs-target="#navbarNav"
               aria-controls="navbarNav"
               aria-expanded="false"
-              aria-label="Toggle navigation">
+              aria-label="Toggle navigation"
+            >
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <Link className="nav-link active" to="/">
-                    Home
+                  <Link className="nav-link" to="/">
+                    Trang chủ
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/about">
+                    Giới thiệu
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/blog">
+                    Blog-tin tức
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/service">
+                    Dịch vụ
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/admin">
-                    Administrator
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/cart">
-                    Cart
+                    Liên hệ
                   </Link>
                 </li>
               </ul>
@@ -96,24 +110,30 @@ const BodyMain = () => {
                   <input
                     type="text"
                     className="form-control search-input"
-                    placeholder="Search"
+                    placeholder="Tìm cây cảnh"
                     value={searchTerm}
                     onChange={handleInputChange}
                   />
-                  <div className="inputInfo">
-                    <ul>
-                      {searchResults.slice(0, 5).map((movie) => (
-                        <li key={movie.id}>
-                          <img
-                            src={movie.poster_path}
-                            alt={movie.title || movie.name}
-                          />
-                          <span>{movie.title || movie.name}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {searchResults.length > 0 && (
+                    <div className="inputInfo">
+                      <ul>
+                        {searchResults.slice(0, 4).map((movie) => (
+                          <li key={movie.id}>
+                            <img
+                              src={movie.poster_path}
+                              alt={movie.title || movie.name}
+                            />
+                            <span>{movie.title || movie.name}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
+                <Link className="nav-link" to="/cart">
+                  <FaShoppingCart className="cart-icon" />
+                  Giỏ hàng
+                </Link>
               </div>
             </div>
           </div>
@@ -137,19 +157,37 @@ const BodyMain = () => {
           }
         />
         <Route path="/admin/*" element={<Admin />} />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route path="/about/*" element={<About />} />
+        <Route path="/blog/*" element={<Blog />} />
+        <Route path="/service/*" element={<Service />} />
+        <Route
+          path="/cart/*"
+          element={<Cart cart={cart} setCart={setCart} />}
+        />
       </Routes>
     </Router>
   );
 };
 
 const HeaderStyle = styled.div`
+  .cart-icon {
+    margin: 0 5px 0 10px;
+  }
 
   .navbar {
     background-color: #5ba503 !important;
-    color:white !important;
-    .nav-link{
-      color:white !important;
+    box-shadow:
+      0 1px 2px 0 rgba(60, 64, 67, 0.1),
+      0 2px 6px 2px rgba(60, 64, 67, 0.15);
+
+    color: white !important;
+    .nav-link {
+      color: white !important;
+      display: flex;
+      align-items: center;
+    }
+    .nav-link:hover {
+      color: #ccc !important;
     }
   }
   .sea-card2nd-item {
@@ -248,10 +286,13 @@ const HeaderStyle = styled.div`
 
   .inputInfo {
     position: absolute;
-    background-color: #5ba503!important;
+    background-color: #fff !important;
     border-radius: 10px;
     width: 226px;
     display: none;
+    box-shadow:
+      0 1px 2px 0 rgba(60, 64, 67, 0.1),
+      0 2px 6px 2px rgba(60, 64, 67, 0.15);
     ul {
       padding-top: 10px;
       padding-left: 0;
@@ -259,14 +300,15 @@ const HeaderStyle = styled.div`
       flex-direction: column;
       width: 226px;
       margin-top: 0;
-      margin-bottom: 1rem;
+      padding-bottom: 10px;
       li {
-        border-bottom:0.1px solid #333;
+        border-bottom: 0.01px solid #333;
         margin: 0 10px 10px 10px;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-bottom: 10px;
         img {
           width: 40px;
           height: 40px;
@@ -276,6 +318,7 @@ const HeaderStyle = styled.div`
         span {
           font-size: 8px;
           line-height: 10px;
+          color: #333;
         }
       }
       li:hover {
@@ -292,7 +335,7 @@ const HeaderStyle = styled.div`
   }
 
   .cart_info {
-    content: "";
+    content: '';
     width: 300px;
     position: absolute;
     height: 100px;
@@ -353,7 +396,7 @@ const HeaderStyle = styled.div`
   }
 
   .info_user:before {
-    content: "";
+    content: '';
     top: 30px;
     width: 60px;
     height: 20px;
@@ -363,12 +406,21 @@ const HeaderStyle = styled.div`
   .info_user:hover .sign-out {
     display: flex;
   }
+  .navbar-brand:hover {
+    color: white;
+  }
 
   .navbar-brand {
+    display: flex;
+    align-items: center;
     font-size: 30px;
     line-height: 30px;
     font-weight: bold;
     color: white;
+    img {
+      width: 40px;
+      height: 40px;
+    }
   }
 
   .collapse {
@@ -418,7 +470,7 @@ const HeaderStyle = styled.div`
       }
 
       .cart_icon:before {
-        content: "1";
+        content: '1';
       }
     }
   }

@@ -1,56 +1,50 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-import styled from "styled-components";
-import { CiShoppingCart } from "react-icons/ci";
-import { IoMdCloseCircle } from "react-icons/io";
-import ReactPlayer from "react-player";
-import { VscMute, VscUnmute } from "react-icons/vsc";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styled from 'styled-components';
+import { CiShoppingCart } from 'react-icons/ci';
+import { IoMdCloseCircle } from 'react-icons/io';
+import ReactPlayer from 'react-player';
+import { VscMute, VscUnmute } from 'react-icons/vsc';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ContainerMain({ cartItems, addToCart }) {
   const [movies, setMovies] = useState([]);
   const [isMuted, setIsMuted] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isProductCard2ndVisible, setIsProductCard2ndVisible] = useState(false);
-
   const [cart, setCart] = useState([]);
-
-  const handleAddToCartClick = (movie) => {
-    setCart([...cart, movie]);
-    addToCart(movie);
-    toast.success("Thêm vào giỏ hàng thành công!", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  const [selectedValue, setSelectedValue] = useState('Cây hoa');
 
   useEffect(() => {
     axios
-      .get("https://api-caycanh.vercel.app/api/tree")
+      .get('https://api-caycanh.vercel.app/api/tree')
       .then((response) => {
         setMovies(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching movie data:", error);
+        console.error('Error fetching movie data:', error);
       });
   }, []);
+
+  useEffect(() => {
+    handleChange({ target: { value: 'Cây hoa' } });
+  }, []);
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
 
   const truncateOverview = (overview) => {
     if (overview) {
       const maxLength = 200;
       return overview.length > maxLength
-        ? overview.substring(0, maxLength - 3) + "..."
+        ? overview.substring(0, maxLength - 3) + '...'
         : overview;
     }
-    return "";
+    return '';
   };
 
   const handleProductCardClick = (movie) => {
@@ -65,22 +59,29 @@ function ContainerMain({ cartItems, addToCart }) {
 
   const renderTreeType = (type) => {
     switch (type) {
-      case "table":
-        return "Cây để bàn";
-      case "construction":
-        return "Cây công trình";
-      case "flower":
-        return "Hoa";
+      case 'table':
+        return 'Cây để bàn';
+      case 'construction':
+        return 'Cây công trình';
+      case 'flower':
+        return 'Hoa';
       default:
-        return "Không rõ";
+        return 'Không rõ';
     }
   };
 
-  // Combobox
-  const [selectedValue, setSelectedValue] = useState("");
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  const handleAddToCartClick = (movie) => {
+    setCart([...cart, movie]);
+    addToCart(movie);
+    toast.success('Thêm vào giỏ hàng thành công!', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (
@@ -88,95 +89,314 @@ function ContainerMain({ cartItems, addToCart }) {
       <ToastContainer />
       <div className="container">
         <div className="Heading">
-          <h1>Danh sách cây cảnh</h1>
+          <h1>Danh sách cây cảnh có trong cửa hàng </h1>
           <div>
             <label htmlFor="trees">Chọn loại cây:</label>
-            <select id="trees" value={selectedValue} onChange={handleChange}>
-              <option value="">Chọn một loại cây</option>
+            <select
+              className="selec"
+              id="trees"
+              value={selectedValue}
+              onChange={handleChange}
+            >
               <option value="Cây hoa">Cây hoa</option>
               <option value="Cây công trình">Cây công trình</option>
               <option value="Cây để bàn">Cây để bàn</option>
             </select>
-            {selectedValue && <p>Bạn đã chọn: {selectedValue}</p>}
           </div>
         </div>
-        <div className="row">
-          {movies.map((movie) => (
-            <div key={movie._id} className="mb-30 col-lg-4 col-sm-6 mb-30">
-              <div className="product-card mx-auto mb-3">
-                <a
-                  className="product-thumb"
-                  href="#/"
-                  onClick={() => handleProductCardClick(movie)}>
-                  <img src={movie.poster_path} alt="Movie Poster" />
-                </a>
-                <div className="product-card-body">
-                  <h5 className="product-title">{movie.title || movie.name}</h5>
-                  <span className="product-price">
-                    Loại cây: {renderTreeType(movie.type)}
-                  </span>
-                  <span className="product-price2">Price: {movie.price}đ</span>
-                  <p className="product-meta">
-                    {truncateOverview(movie.overview)}
-                  </p>
-                </div>
-                <div className="product-buttons-wrap">
-                  <div className="product-buttons">
-                    <div className="product-button">
-                      <a href="#/" onClick={() => handleAddToCartClick(movie)}>
-                        <CiShoppingCart className="product-button-icona" />
+
+        {selectedValue === 'Cây hoa' && (
+          <div className="row">
+            {movies.map((movie) => {
+              if (movie.type === 'flower') {
+                return (
+                  <div
+                    key={movie._id}
+                    className="mb-30 col-lg-4 col-sm-6 mb-30"
+                  >
+                    <div className="product-card mx-auto mb-3">
+                      <a
+                        className="product-thumb"
+                        href="#/"
+                        onClick={() => handleProductCardClick(movie)}
+                      >
+                        <img src={movie.poster_path} alt="Movie Poster" />
                       </a>
+                      <div className="product-card-body">
+                        <h5 className="product-title">
+                          {movie.title || movie.name}
+                        </h5>
+                        <span className="product-price">
+                          Loại cây: {renderTreeType(movie.type)}
+                        </span>
+                        <span className="product-price2">
+                          Price: {movie.price}đ
+                        </span>
+                        <p className="product-meta">
+                          {truncateOverview(movie.overview)}
+                        </p>
+                      </div>
+                      <div className="product-buttons-wrap">
+                        <div className="product-buttons">
+                          <div className="product-button">
+                            <a
+                              href="#/"
+                              onClick={() => handleAddToCartClick(movie)}
+                            >
+                              <CiShoppingCart className="product-button-icona" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+            {isProductCard2ndVisible && selectedMovie && (
+              <div className="product-card_2nd">
+                <IoMdCloseCircle
+                  className="icon_product2nd"
+                  onClick={handleProductCard2ndClose}
+                />
+                <div className="product-card2nd-item">
+                  <div className="product-card2nd-video">
+                    <ReactPlayer
+                      autoPlay={true}
+                      playing={true}
+                      loop={true}
+                      width="100%"
+                      height="100%"
+                      volume={0.5}
+                      muted={isMuted}
+                      url={selectedMovie.link_film}
+                      className="videoIntro"
+                    />
+                    {isMuted ? (
+                      <VscMute
+                        className="btnVolume"
+                        onClick={() => setIsMuted((prev) => !prev)}
+                      />
+                    ) : (
+                      <VscUnmute
+                        className="btnVolume"
+                        onClick={() => setIsMuted((prev) => !prev)}
+                      />
+                    )}
+                  </div>
+                  <div className="product-card2nd-info">
+                    <h2>{selectedMovie.title || selectedMovie.name}</h2>
+                    <span>{truncateOverview(selectedMovie.overview)}</span>
+                    <span>Thể loại: {selectedMovie.type}</span>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-          {isProductCard2ndVisible && selectedMovie && (
-            <div className="product-card_2nd">
-              <IoMdCloseCircle
-                className="icon_product2nd"
-                onClick={handleProductCard2ndClose}
-              />
-              <div className="product-card2nd-item">
-                <div className="product-card2nd-video">
-                  <ReactPlayer
-                    autoPlay={true}
-                    playing={true}
-                    loop={true}
-                    width="100%"
-                    height="100%"
-                    volume={0.5}
-                    muted={isMuted}
-                    url={selectedMovie.link_film}
-                    className="videoIntro"
-                  />
-                  {isMuted ? (
-                    <VscMute
-                      className="btnVolume"
-                      onClick={() => setIsMuted((prev) => !prev)}
+            )}
+          </div>
+        )}
+
+        {selectedValue === 'Cây công trình' && (
+          <div className="row">
+            {movies.map((movie) => {
+              if (movie.type === 'construction') {
+                return (
+                  <div
+                    key={movie._id}
+                    className="mb-30 col-lg-4 col-sm-6 mb-30"
+                  >
+                    <div className="product-card mx-auto mb-3">
+                      <a
+                        className="product-thumb"
+                        href="#/"
+                        onClick={() => handleProductCardClick(movie)}
+                      >
+                        <img src={movie.poster_path} alt="Movie Poster" />
+                      </a>
+                      <div className="product-card-body">
+                        <h5 className="product-title">
+                          {movie.title || movie.name}
+                        </h5>
+                        <span className="product-price">
+                          Loại cây: {renderTreeType(movie.type)}
+                        </span>
+                        <span className="product-price2">
+                          Price: {movie.price}đ
+                        </span>
+                        <p className="product-meta">
+                          {truncateOverview(movie.overview)}
+                        </p>
+                      </div>
+                      <div className="product-buttons-wrap">
+                        <div className="product-buttons">
+                          <div className="product-button">
+                            <a
+                              href="#/"
+                              onClick={() => handleAddToCartClick(movie)}
+                            >
+                              <CiShoppingCart className="product-button-icona" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+            {isProductCard2ndVisible && selectedMovie && (
+              <div className="product-card_2nd">
+                <IoMdCloseCircle
+                  className="icon_product2nd"
+                  onClick={handleProductCard2ndClose}
+                />
+                <div className="product-card2nd-item">
+                  <div className="product-card2nd-video">
+                    <ReactPlayer
+                      autoPlay={true}
+                      playing={true}
+                      loop={true}
+                      width="100%"
+                      height="100%"
+                      volume={0.5}
+                      muted={isMuted}
+                      url={selectedMovie.link_film}
+                      className="videoIntro"
                     />
-                  ) : (
-                    <VscUnmute
-                      className="btnVolume"
-                      onClick={() => setIsMuted((prev) => !prev)}
-                    />
-                  )}
-                </div>
-                <div className="product-card2nd-info">
-                  <h2>{selectedMovie.title || selectedMovie.name}</h2>
-                  <span>{truncateOverview(selectedMovie.overview)}</span>
-                  <span>Thể loại: {selectedMovie.type}</span>
+                    {isMuted ? (
+                      <VscMute
+                        className="btnVolume"
+                        onClick={() => setIsMuted((prev) => !prev)}
+                      />
+                    ) : (
+                      <VscUnmute
+                        className="btnVolume"
+                        onClick={() => setIsMuted((prev) => !prev)}
+                      />
+                    )}
+                  </div>
+                  <div className="product-card2nd-info">
+                    <h2>{selectedMovie.title || selectedMovie.name}</h2>
+                    <span>{truncateOverview(selectedMovie.overview)}</span>
+                    <span>Thể loại: {selectedMovie.type}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
+        {selectedValue === 'Cây để bàn' && (
+          <div className="row">
+            {movies.map((movie) => {
+              if (movie.type === 'table') {
+                return (
+                  <div
+                    key={movie._id}
+                    className="mb-30 col-lg-4 col-sm-6 mb-30"
+                  >
+                    <div className="product-card mx-auto mb-3">
+                      <a
+                        className="product-thumb"
+                        href="#/"
+                        onClick={() => handleProductCardClick(movie)}
+                      >
+                        <img src={movie.poster_path} alt="Movie Poster" />
+                      </a>
+                      <div className="product-card-body">
+                        <h5 className="product-title">
+                          {movie.title || movie.name}
+                        </h5>
+                        <span className="product-price">
+                          Loại cây: {renderTreeType(movie.type)}
+                        </span>
+                        <span className="product-price2">
+                          Price: {movie.price}đ
+                        </span>
+                        <p className="product-meta">
+                          {truncateOverview(movie.overview)}
+                        </p>
+                      </div>
+                      <div className="product-buttons-wrap">
+                        <div className="product-buttons">
+                          <div className="product-button">
+                            <a
+                              href="#/"
+                              onClick={() => handleAddToCartClick(movie)}
+                            >
+                              <CiShoppingCart className="product-button-icona" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+            {isProductCard2ndVisible && selectedMovie && (
+              <div className="product-card_2nd">
+                <IoMdCloseCircle
+                  className="icon_product2nd"
+                  onClick={handleProductCard2ndClose}
+                />
+                <div className="product-card2nd-item">
+                  <div className="product-card2nd-video">
+                    <ReactPlayer
+                      autoPlay={true}
+                      playing={true}
+                      loop={true}
+                      width="100%"
+                      height="100%"
+                      volume={0.5}
+                      muted={isMuted}
+                      url={selectedMovie.link_film}
+                      className="videoIntro"
+                    />
+                    {isMuted ? (
+                      <VscMute
+                        className="btnVolume"
+                        onClick={() => setIsMuted((prev) => !prev)}
+                      />
+                    ) : (
+                      <VscUnmute
+                        className="btnVolume"
+                        onClick={() => setIsMuted((prev) => !prev)}
+                      />
+                    )}
+                  </div>
+                  <div className="product-card2nd-info">
+                    <h2>{selectedMovie.title || selectedMovie.name}</h2>
+                    <span>{truncateOverview(selectedMovie.overview)}</span>
+                    <span>Thể loại: {selectedMovie.type}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </ContainerStyle>
   );
 }
 const ContainerStyle = styled.div`
+  .mx-auto {
+    padding-top: 0px !important;
+  }
+
+  .selec {
+    margin-left: 10px;
+    color: #5ba503;
+    text-align: center;
+    width: 200px;
+    padding: 5px 2px;
+    border-radius: 10px;
+  }
+
   .product-button a {
     display: flex;
     align-items: center;
@@ -262,9 +482,9 @@ const ContainerStyle = styled.div`
   }
 
   .product-title {
-    font-size: 14px;
+    font-size: 24px;
     font-weight: bold;
-    height: 30px;
+    text-align: center;
   }
 
   .product-card_2nd {
@@ -296,9 +516,10 @@ const ContainerStyle = styled.div`
   }
 
   .Heading {
-    margin: 30px 0 0 0;
+    margin: 30px 0 10px 0;
     h1 {
       text-align: center;
+      font-size: 24px;
       padding: 10px;
     }
   }
@@ -311,7 +532,6 @@ const ContainerStyle = styled.div`
     position: relative;
     max-width: 380px;
     height: 100%;
-    padding-top: 12px;
     padding-bottom: 43px;
     transition: all 0.35s;
     border: 1px solid #e7e7e7;
@@ -326,15 +546,14 @@ const ContainerStyle = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
-    height: 300px;
-    width: 300px;
+    padding: 0 20px;
   }
   .product-price {
     display: block;
   }
   .product-card .product-thumb > img {
     display: block;
-    width: 64%;
+    width: 100%;
     height: 90%;
     border-radius: 10px;
   }

@@ -23,7 +23,7 @@ function AddMovieForm() {
         title: title,
         poster_path: posterPath,
         overview: overview,
-        link_film: videoLink, // Thay đổi ở đây
+        link_film: videoLink, 
         price: price,
         type: type,
       };
@@ -47,7 +47,7 @@ function AddMovieForm() {
     <AddCss>
       <div className="App">
         <div>
-          <label>Title:</label>
+          <label>Tên Loại cây:</label>
           <input
             type="text"
             value={title}
@@ -56,7 +56,7 @@ function AddMovieForm() {
         </div>
 
         <div>
-          <label>Poster Path:</label>
+          <label>Link ảnh:</label>
           <input
             type="text"
             value={posterPath}
@@ -65,7 +65,7 @@ function AddMovieForm() {
         </div>
 
         <div>
-          <label>Overview:</label>
+          <label>Mô tả:</label>
           <textarea
             value={overview}
             onChange={(e) => setOverview(e.target.value)}
@@ -73,7 +73,7 @@ function AddMovieForm() {
         </div>
 
         <div>
-          <label>Video Link:</label>
+          <label>Link video về cây:</label>
           <input
             type="text"
             value={videoLink}
@@ -82,7 +82,7 @@ function AddMovieForm() {
         </div>
 
         <div>
-          <label>Price:</label>
+          <label>Giá:</label>
           <input
             type="text"
             value={price}
@@ -91,7 +91,7 @@ function AddMovieForm() {
         </div>
 
         <div>
-          <label>Type:</label>
+          <label>Loại cây:</label>
           <input
             type="text"
             value={type}
@@ -99,7 +99,7 @@ function AddMovieForm() {
           />
         </div>
 
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit}>Thêm cây</button>
       </div>
     </AddCss>
   );
