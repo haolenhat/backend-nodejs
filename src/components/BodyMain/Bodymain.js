@@ -105,11 +105,6 @@ const BodyMain = () => {
                     Tra cứu sản phẩm
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/admin">
-                    Trang Admin
-                  </Link>
-                </li>
               </ul>
               <div className="info">
                 <div>
